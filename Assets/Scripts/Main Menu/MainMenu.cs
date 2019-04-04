@@ -295,7 +295,7 @@ public class MainMenu : MonoBehaviour
         reversal += Time.deltaTime/3f;
 
         if (reversal < 10f) {
-            Vector3 newPosition = theBrute.transform.position + (transform.right * Time.deltaTime * 2.5f);
+            Vector3 newPosition = theBrute.transform.position + (transform.right * .02f);
             theBrute.MovePosition(newPosition);
 
             if (reversal < 10f && reversal > 9f)
@@ -305,7 +305,7 @@ public class MainMenu : MonoBehaviour
         }
         else if (reversal < 20f)
         {
-            Vector3 newPosition = theBrute.transform.position - (transform.right * Time.deltaTime * 2.5f);
+            Vector3 newPosition = theBrute.transform.position - (transform.right * .02f);
             theBrute.MovePosition(newPosition);
         }
         else
