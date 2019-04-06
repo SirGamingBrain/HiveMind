@@ -373,6 +373,8 @@ public class MainMenu : MonoBehaviour
     public void Continue()
     {
         fadeUI = true;
+        loadingScene = true;
+        fadeScreen.SetActive(true);
     }
 
     public void Settings()
@@ -417,7 +419,7 @@ public class MainMenu : MonoBehaviour
         width = resolutions[index].width;
 
         resolutionB.GetComponentInChildren<Text>().text = (width + " x " + height);
-        Screen.SetResolution(width, height, Screen.fullScreen);
+        //Screen.SetResolution(width, height, Screen.fullScreen);
         PlayerPrefs.SetString("Resolution", height.ToString());
     }
 
@@ -440,6 +442,8 @@ public class MainMenu : MonoBehaviour
     //Used to go back between the settings of the menu.
     public void SaveApply()
     {
+        Screen.SetResolution(width, height, Screen.fullScreen);
+
         fadeSettingsIn = false;
         resolutionB.enabled = false;
         fullscreenB.enabled = false;
