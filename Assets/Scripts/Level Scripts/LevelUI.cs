@@ -29,6 +29,8 @@ public class LevelUI : MonoBehaviour
     bool fadeAllIn = false;
     bool fadeSettingsIn = false;
 
+    bool firstLoad = false;
+
     public Button continueGame;
     public Button settingsB;
     public Button exitB;
@@ -55,6 +57,9 @@ public class LevelUI : MonoBehaviour
 
     public AudioSource hover;
     public AudioSource select;
+    public AudioSource audio;
+
+    public AudioClip levelMusic;
 
     public AudioClip hovering;
     public AudioClip selecting;
@@ -147,6 +152,16 @@ public class LevelUI : MonoBehaviour
         fadeUIIn = false;
 
         masterLevel = PlayerPrefs.GetFloat("Master Volume");
+
+        hover.volume = masterLevel;
+        select.volume = masterLevel;
+        audio.loop = true;
+
+        audio.clip = levelMusic;
+
+        audio.volume = masterLevel * 0f;
+
+        audio.Play();
     }
 
     // Update is called once per frame
@@ -155,6 +170,7 @@ public class LevelUI : MonoBehaviour
         if (PlayerPrefs.GetString("Last Checkpoint") == "End")
         {
             fadeAll = true;
+            PlayerPrefs.SetString("Cutscene", "true");
         }
 
         //This is just us slowly fading the black screen away from the player to reveal the opening animations.
@@ -162,11 +178,13 @@ public class LevelUI : MonoBehaviour
         {
             fadeAlpha -= Time.deltaTime / 2f;
             fadeGroup.alpha = fadeAlpha;
+            audio.volume = masterLevel * .8f * Mathf.Abs(1f - fadeAlpha);
 
             if (fadeAlpha <= 0f)
             {
                 fadeAllIn = false;
                 fadeGroup.alpha = 0;
+                audio.volume = masterLevel * .8f;
                 fadeObject.SetActive(false);
             }
         }
@@ -178,11 +196,13 @@ public class LevelUI : MonoBehaviour
 
             fadeAlpha += Time.deltaTime / 2f;
             fadeGroup.alpha = fadeAlpha;
+            audio.volume = masterLevel * .8f * Mathf.Abs(1f - fadeAlpha);
 
             if (fadeAlpha > 1f)
             {
                 fadeGroup.alpha = 1f;
                 fadeAll = false;
+                audio.volume = masterLevel * 0f;
                 PlayerPrefs.Save();
                 StartCoroutine(LoadScene("Main Menu"));
             }
@@ -408,39 +428,41 @@ public class LevelUI : MonoBehaviour
             width = resolutions[index].width;
 
             resolutionB.GetComponentInChildren<Text>().text = (width + " x " + height);
-            Screen.SetResolution(width, height, Screen.fullScreen);
+            //Screen.SetResolution(width, height, Screen.fullScreen);
             PlayerPrefs.SetString("Resolution", height.ToString());
     }
 
     public void changeQuality()
     {
-            if (qualityNum < (qualities.Length - 1))
-            {
-                qualityNum += 1;
-            }
-            else
-            {
-                qualityNum = 0;
-            }
+        if (qualityNum < (qualities.Length - 1))
+        {
+            qualityNum += 1;
+        }
+        else
+        {
+            qualityNum = 0;
+        }
 
-            QualitySettings.SetQualityLevel(qualityNum, true);
-            PlayerPrefs.SetInt("Quality", qualityNum);
-            qualityB.GetComponentInChildren<Text>().text = ("Level " + (qualityNum + 1));
+        QualitySettings.SetQualityLevel(qualityNum, true);
+        PlayerPrefs.SetInt("Quality", qualityNum);
+        qualityB.GetComponentInChildren<Text>().text = ("Level " + (qualityNum + 1));
     }
 
     //Used to go back between the settings of the menu.
     public void SaveApply()
     {
-            fadeSettingsIn = false;
-            resolutionB.enabled = false;
-            fullscreenB.enabled = false;
-            qualityB.enabled = false;
-            applyB.enabled = false;
-            masterS.enabled = false;
+        Screen.SetResolution(width, height, Screen.fullScreen);
 
-            tradeWindows = false;
+        fadeSettingsIn = false;
+        resolutionB.enabled = false;
+        fullscreenB.enabled = false;
+        qualityB.enabled = false;
+        applyB.enabled = false;
+        masterS.enabled = false;
 
-            PlayerPrefs.Save();
+        tradeWindows = false;
+
+        PlayerPrefs.Save();
     }
 
     public void ExitGame()
@@ -453,11 +475,13 @@ public class LevelUI : MonoBehaviour
 
     public void HoverSound()
     {
+        hover.clip = hovering;
             hover.Play();
     }
 
     public void clickSound()
     {
+        select.clip = selecting;
             select.Play();
     }
 
@@ -475,13 +499,17 @@ public class LevelUI : MonoBehaviour
     {
         // The Application loads the Scene in the background as the current Scene runs.
         // This is particularly good for creating loading screens.
+        if (firstLoad == false) {
+            AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(scene);
+            firstLoad = true;
 
-        AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(scene);
+            while (!asyncLoad.isDone)
+            {
+                yield return null;
+            }
+        }
 
         // Wait until the asynchronous scene fully loads
-        while (!asyncLoad.isDone)
-        {
-            yield return null;
-        }
+        
     }
 }

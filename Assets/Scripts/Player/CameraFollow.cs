@@ -12,6 +12,8 @@ public class CameraFollow : MonoBehaviour
 
     private float moveTime;
 
+    private float waitTime = 0f;
+
     bool moving = false;
     bool turning = false;
 
@@ -33,6 +35,7 @@ public class CameraFollow : MonoBehaviour
             if (Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.D))
             {
                 moving = true;
+                waitTime = 0f;
             }
             else
             {
@@ -126,12 +129,17 @@ public class CameraFollow : MonoBehaviour
             }
             else
             {
-                if (moving == true)
+                if (waitTime < 1.5f)
+                {
+                    waitTime += Time.deltaTime;
+                }
+                else if (waitTime > 1.5f)
                 {
                     moveTime = 0f;
-                }
 
-                newPlace = new Vector3(player.transform.position.x, cameraHeight, player.transform.position.z - 6.5f);
+                    waitTime = 1.5f;
+                    newPlace = new Vector3(player.transform.position.x, cameraHeight, player.transform.position.z - 6.5f);
+                }
             }
 
             moveTime += Time.deltaTime;
@@ -162,51 +170,5 @@ public class CameraFollow : MonoBehaviour
 
             this.transform.position = Vector3.Lerp(oldPlace, newPlace, perc);
         }
-
-        /*    //Here we basically hard time the intro cutscene, and depending on where the timer is at different things happen.
-            cutsceneTime += Time.deltaTime;
-
-            if (cutsceneTime > 10f) //Then we end the intro cutscene.
-            {
-                cutscene = false;
-            }
-            else if (cutsceneTime >= 9f) //Then after a bit, lerp back to the player.
-            {
-                if (cutsceneLerp >= 1f)
-                {
-                    cutsceneLerp -= Time.deltaTime;
-                }
-
-                if (cutsceneLerp <= 0f)
-                {
-                    cutsceneLerp = 0f;
-                }
-                else if (cutsceneLerp < 1f)
-                {
-                    cutsceneLerp -= Time.deltaTime;
-                }
-
-                this.transform.position = Vector3.Lerp(oldPlace, newPlace, cutsceneLerp);
-            }
-            else if (cutsceneTime >= 6f) // Then after movement is completed and the textbox is shown, lerp over to show the interactable button.
-            {
-                if (cutsceneLerp == 0f)
-                {
-                    oldPlace = this.transform.position;
-                    cutsceneLerp += Time.deltaTime;
-                    newPlace = new Vector3(24f, 8f, -18f);
-                }
-                else if (cutsceneLerp < 1f) {
-                    cutsceneLerp += Time.deltaTime;
-                }
-
-                if (cutsceneLerp >= 1f)
-                {
-                    cutsceneLerp = 1f;
-                }
-
-                this.transform.position = Vector3.Lerp(oldPlace, newPlace, cutsceneLerp);
-            }
-        }*/
     }
 }

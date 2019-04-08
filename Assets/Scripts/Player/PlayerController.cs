@@ -71,7 +71,7 @@ public class PlayerController : MonoBehaviour
 
         spawnPoint = GameObject.Find(PlayerPrefs.GetString("Last Checkpoint"));
 
-        if (spawnPoint.name == "new")
+        if (PlayerPrefs.GetString("Last Checkpoint") == "new")
         {
             spawnPoint = GameObject.Find("NewTutorial");
         }
@@ -168,49 +168,49 @@ public class PlayerController : MonoBehaviour
                 if (Input.GetKey(KeyCode.W) && Input.GetKey(KeyCode.A))
                 {
                     newRotation = Quaternion.Euler(0f, -45f, 0f);
-                    newPosition = transform.position + (Vector3.Normalize(transform.forward - transform.right) * Time.deltaTime * speed);
+                    newPosition = transform.position + (Vector3.Normalize(transform.forward - transform.right) * .008f * speed);
                     rb.MovePosition(newPosition);
                 }
                 else if (Input.GetKey(KeyCode.W) && Input.GetKey(KeyCode.D))
                 {
                     newRotation = Quaternion.Euler(0f, 45f, 0f);
-                    newPosition = transform.position + (Vector3.Normalize(transform.forward + transform.right) * Time.deltaTime * speed);
+                    newPosition = transform.position + (Vector3.Normalize(transform.forward + transform.right) * .008f * speed);
                     rb.MovePosition(newPosition);
                 }
                 else if (Input.GetKey(KeyCode.W))
                 {
                     newRotation = Quaternion.Euler(0f, 0f, 0f);
-                    newPosition = transform.position + (transform.forward * Time.deltaTime * speed);
+                    newPosition = transform.position + (transform.forward * .008f * speed);
                     rb.MovePosition(newPosition);
                 }
                 else if (Input.GetKey(KeyCode.S) && Input.GetKey(KeyCode.A))
                 {
                     newRotation = Quaternion.Euler(0f, -135f, 0f);
-                    newPosition = transform.position + (Vector3.Normalize(-transform.forward - transform.right) * Time.deltaTime * speed);
+                    newPosition = transform.position + (Vector3.Normalize(-transform.forward - transform.right) * .008f * speed);
                     rb.MovePosition(newPosition);
                 }
                 else if (Input.GetKey(KeyCode.S) && Input.GetKey(KeyCode.D))
                 {
                     newRotation = Quaternion.Euler(0f, 135f, 0f);
-                    newPosition = transform.position + (Vector3.Normalize(-transform.forward + transform.right) * Time.deltaTime * speed);
+                    newPosition = transform.position + (Vector3.Normalize(-transform.forward + transform.right) * .008f * speed);
                     rb.MovePosition(newPosition);
                 }
                 else if (Input.GetKey(KeyCode.A))
                 {
                     newRotation = Quaternion.Euler(0f, -90f, 0f);
-                    newPosition = transform.position - (transform.right * Time.deltaTime * speed);
+                    newPosition = transform.position - (transform.right * .008f * speed);
                     rb.MovePosition(newPosition);
                 }
                 else if (Input.GetKey(KeyCode.D))
                 {
                     newRotation = Quaternion.Euler(0f, 90f, 0f);
-                    newPosition = transform.position + (transform.right * Time.deltaTime * speed);
+                    newPosition = transform.position + (transform.right * .008f * speed);
                     rb.MovePosition(newPosition);
                 }
                 else if (Input.GetKey(KeyCode.S))
                 {
                     newRotation = Quaternion.Euler(0f, 180f, 0f);
-                    newPosition = transform.position - (transform.forward * Time.deltaTime * speed);
+                    newPosition = transform.position - (transform.forward * .008f * speed);
                     rb.MovePosition(newPosition);
                 }
 

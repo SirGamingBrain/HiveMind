@@ -128,7 +128,7 @@ public class TutorialScripts : MonoBehaviour
 
                     newRotation = Quaternion.Euler(0f, 90f, 0f);
                     playerModel.transform.rotation = Quaternion.Euler(0f, 90f, 0f);
-                    Vector3 newPosition = player.transform.position + (transform.right * Time.deltaTime * 6.5f);
+                    Vector3 newPosition = player.transform.position + (transform.right * .008f * 6.5f);
                     playerbody.MovePosition(newPosition);
                 }
 
@@ -198,7 +198,7 @@ public class TutorialScripts : MonoBehaviour
 
                     newRotation = Quaternion.Euler(0f, 90f, 0f);
                     playerModel.transform.rotation = Quaternion.Euler(0f, 90f, 0f);
-                    Vector3 newPosition = player.transform.position + (transform.right * Time.deltaTime * 6.5f);
+                    Vector3 newPosition = player.transform.position + (transform.right * .008f * 6.5f);
                     playerbody.MovePosition(newPosition);
                 }
             }
@@ -267,7 +267,7 @@ public class TutorialScripts : MonoBehaviour
 
                     newRotation = Quaternion.Euler(0f, 90f, 0f);
                     playerModel.transform.rotation = Quaternion.Euler(0f, 90f, 0f);
-                    Vector3 newPosition = player.transform.position + (transform.right * Time.deltaTime * 6.5f);
+                    Vector3 newPosition = player.transform.position + (transform.right * .008f * 6.5f);
                     playerbody.MovePosition(newPosition);
                 }
             }
@@ -281,7 +281,7 @@ public class TutorialScripts : MonoBehaviour
 
                     newRotation = Quaternion.Euler(0f, 90f, 0f);
                     playerModel.transform.rotation = Quaternion.Euler(0f, 90f, 0f);
-                    Vector3 newPosition = player.transform.position + (transform.right * Time.deltaTime * 15f);
+                    Vector3 newPosition = player.transform.position + (transform.right * .008f * 15f);
                     playerbody.MovePosition(newPosition);
                 }
             }

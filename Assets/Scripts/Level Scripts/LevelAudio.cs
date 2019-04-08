@@ -29,7 +29,7 @@ public class LevelAudio : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //masterV = PlayerPrefs.GetFloat("Master Volume");
+        masterV = PlayerPrefs.GetFloat("Master Volume");
         audio.volume = masterV * .8f;
     }
 }
