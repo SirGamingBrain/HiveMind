@@ -30,6 +30,7 @@ public class LevelUI : MonoBehaviour
     bool fadeSettingsIn = false;
 
     bool firstLoad = false;
+    bool backingOut = false;
 
     public Button continueGame;
     public Button settingsB;
@@ -204,7 +205,22 @@ public class LevelUI : MonoBehaviour
                 fadeAll = false;
                 audio.volume = masterLevel * 0f;
                 PlayerPrefs.Save();
-                StartCoroutine(LoadScene("Main Menu"));
+                if (scene.name == "NewTutorial" || backingOut == true)
+                {
+                    StartCoroutine(LoadScene("1st Level"));
+                }
+                else if (scene.name == "1st Level")
+                {
+                    StartCoroutine(LoadScene("2nd Level"));
+                }
+                else if (scene.name == "2nd Level")
+                {
+                    StartCoroutine(LoadScene("3rd Level"));
+                }
+                else
+                {
+                    StartCoroutine(LoadScene("Main Menu"));
+                }
             }
         }
 
@@ -471,6 +487,7 @@ public class LevelUI : MonoBehaviour
         PlayerPrefs.Save();
         fadeUI = true;
         fadeAll = true;
+        backingOut = true;
     }
 
     public void HoverSound()

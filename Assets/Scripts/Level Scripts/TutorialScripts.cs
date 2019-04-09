@@ -52,7 +52,7 @@ public class TutorialScripts : MonoBehaviour
     {
         scene = SceneManager.GetActiveScene();
 
-        if (PlayerPrefs.GetString("Last Checkpoint") == "new" && (scene.name == "First Level" || scene.name == "Second Level" || scene.name == "Third Level")) {
+        if (PlayerPrefs.GetString("Last Checkpoint") == "new" && (scene.name == "1st Level" || scene.name == "2nd Level" || scene.name == "3rd Level")) {
             PlayerPrefs.SetString("Cutscene", "true");
             cutsceneBars.alpha = 1f;
         }

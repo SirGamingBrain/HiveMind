@@ -9,7 +9,17 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1741049700296952, guid: e9dcf4196f90aec40bfd9666319fbe69, type: 3}
       propertyPath: m_Name
-      value: Trap
+      value: Trap Variant
+      objectReference: {fileID: 0}
+    - target: {fileID: 64794337186399284, guid: e9dcf4196f90aec40bfd9666319fbe69,
+        type: 3}
+      propertyPath: m_Convex
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 64794337186399284, guid: e9dcf4196f90aec40bfd9666319fbe69,
+        type: 3}
+      propertyPath: m_IsTrigger
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4735416125578178, guid: e9dcf4196f90aec40bfd9666319fbe69, type: 3}
       propertyPath: m_LocalPosition.x
@@ -58,16 +68,6 @@ PrefabInstance:
     - target: {fileID: 4735416125578178, guid: e9dcf4196f90aec40bfd9666319fbe69, type: 3}
       propertyPath: m_LocalScale.y
       value: 0.1
-      objectReference: {fileID: 0}
-    - target: {fileID: 64794337186399284, guid: e9dcf4196f90aec40bfd9666319fbe69,
-        type: 3}
-      propertyPath: m_Convex
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 64794337186399284, guid: e9dcf4196f90aec40bfd9666319fbe69,
-        type: 3}
-      propertyPath: m_IsTrigger
-      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e9dcf4196f90aec40bfd9666319fbe69, type: 3}
