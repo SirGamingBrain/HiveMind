@@ -17,6 +17,8 @@ public class TutorialScripts : MonoBehaviour
     bool scene3 = false;
     bool outro = false;
 
+    Scene scene;
+
     // 2 - UI Stuff
     public CanvasGroup cutsceneBars;
     public CanvasGroup areaTitle;
@@ -48,7 +50,9 @@ public class TutorialScripts : MonoBehaviour
     // Then we can setup this script since it will be the only time we use this script on the new tutorial scene...
     void Start()
     {
-        if (PlayerPrefs.GetString("Last Section") == "NewTutorial" && PlayerPrefs.GetString("Last Checkpoint") == "new") {
+        scene = SceneManager.GetActiveScene();
+
+        if (PlayerPrefs.GetString("Last Checkpoint") == "new" && (scene.name == "First Level" || scene.name == "Second Level" || scene.name == "Third Level")) {
             PlayerPrefs.SetString("Cutscene", "true");
             cutsceneBars.alpha = 1f;
         }
@@ -56,12 +60,17 @@ public class TutorialScripts : MonoBehaviour
         {
             cutsceneBars.alpha = 0f;
         }
+
+        if (PlayerPrefs.GetString("Last Checkpoint") == "End")
+        {
+            PlayerPrefs.SetString("Last Checkpoint", "new");
+        }
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (PlayerPrefs.GetString("Cutscene") == "true")
+        if (PlayerPrefs.GetString("Cutscene") == "true" && scene.name == "NewTutorial")
         {
             if (barsAlpha < 1f)
             {
@@ -132,7 +141,7 @@ public class TutorialScripts : MonoBehaviour
                     playerbody.MovePosition(newPosition);
                 }
 
-                
+
             }
             else if (PlayerPrefs.GetString("Last Checkpoint") == "Checkpoint 1")
             {
@@ -282,6 +291,41 @@ public class TutorialScripts : MonoBehaviour
                     newRotation = Quaternion.Euler(0f, 90f, 0f);
                     playerModel.transform.rotation = Quaternion.Euler(0f, 90f, 0f);
                     Vector3 newPosition = player.transform.position + (transform.right * .008f * 15f);
+                    playerbody.MovePosition(newPosition);
+                }
+            }
+        }
+        else if (PlayerPrefs.GetString("Cutscene") == "true")
+        {
+            if (barsAlpha < 1f)
+            {
+                barsAlpha += Time.deltaTime * 2f;
+                cutsceneBars.alpha = barsAlpha;
+            }
+            else if (barsAlpha > 1f)
+            {
+                barsAlpha = 1f;
+                cutsceneBars.alpha = barsAlpha;
+            }
+
+            cutsceneTimer += Time.deltaTime;
+
+            if (PlayerPrefs.GetString("Last Checkpoint") == "new")
+            {
+                if (cutsceneTimer >= 3f)
+                {
+                    cutsceneTimer = 0f;
+                    PlayerPrefs.SetString("Cutscene", "false");
+                    PlayerPrefs.SetString("Paused", "false");
+                }
+                else if (cutsceneTimer >= 0f)
+                {
+                    PlayerPrefs.SetString("Section Display", "true");
+                    playerAnimations.SetBool("running", true);
+
+                    newRotation = Quaternion.Euler(0f, 90f, 0f);
+                    playerModel.transform.rotation = Quaternion.Euler(0f, 90f, 0f);
+                    Vector3 newPosition = player.transform.position + (transform.right * .008f * 6.5f);
                     playerbody.MovePosition(newPosition);
                 }
             }

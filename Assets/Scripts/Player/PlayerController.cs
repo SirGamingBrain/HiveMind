@@ -69,11 +69,15 @@ public class PlayerController : MonoBehaviour
         
         checkpointName = PlayerPrefs.GetString("Last Checkpoint");
 
-        spawnPoint = GameObject.Find(PlayerPrefs.GetString("Last Checkpoint"));
+        spawnPoint = GameObject.Find(checkpointName);
 
-        if (PlayerPrefs.GetString("Last Checkpoint") == "new")
+        if (checkpointName == "new")
         {
-            spawnPoint = GameObject.Find("NewTutorial");
+            spawnPoint = GameObject.Find("new");
+        }
+        else if (checkpointName == "End")
+        {
+            spawnPoint = GameObject.Find("new");
         }
 
         this.transform.position = spawnPoint.transform.position;
