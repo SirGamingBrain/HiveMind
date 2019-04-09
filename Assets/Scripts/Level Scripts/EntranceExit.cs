@@ -28,15 +28,6 @@ public class EntranceExit : MonoBehaviour
 
     public Animator playerAnimations;
 
-    // 4 - Camera Stuff
-    public GameObject cameraPlacement;
-    private Vector3 newPlace;
-    private Vector3 oldPlace;
-
-    private float cameraHeight = 10f;
-
-    private float moveTime = 0f;
-
     // Start is called before the first frame update
     void Start()
     {
@@ -47,14 +38,18 @@ public class EntranceExit : MonoBehaviour
             PlayerPrefs.SetString("Last Checkpoint", "new");
         }
 
-        if (PlayerPrefs.GetString("Last Checkpoint") == "new" && (scene.name == "First Level" || scene.name == "Second Level" || scene.name == "Third Level"))
+        if (PlayerPrefs.GetString("Last Checkpoint") == "new" && (scene.name == "1st Level" || scene.name == "2nd Level" || scene.name == "3rd Level"))
         {
             PlayerPrefs.SetString("Cutscene", "true");
+            PlayerPrefs.SetString("Section Display", "true");
             cutsceneBars.alpha = 1f;
         }
         else
         {
             cutsceneBars.alpha = 0f;
+            PlayerPrefs.SetString("Cutscene", "true");
+            PlayerPrefs.SetString("Paused", "false");
+            PlayerPrefs.SetString("Section Display", "true");
         }
 
         
@@ -80,11 +75,12 @@ public class EntranceExit : MonoBehaviour
 
             if (PlayerPrefs.GetString("Last Checkpoint") == "new")
             {
-                if (cutsceneTimer >= 3f)
+                if (cutsceneTimer >= 2.5f)
                 {
                     cutsceneTimer = 0f;
                     PlayerPrefs.SetString("Cutscene", "false");
                     PlayerPrefs.SetString("Paused", "false");
+                    PlayerPrefs.Save();
                 }
                 else if (cutsceneTimer >= 0f)
                 {
@@ -100,11 +96,72 @@ public class EntranceExit : MonoBehaviour
         }
         else if (PlayerPrefs.GetString("Cutscene") == "true" && PlayerPrefs.GetString("Last Checkpoint") == "End")
         {
+            if (barsAlpha < 1f)
+            {
+                barsAlpha += Time.deltaTime * 2f;
+                cutsceneBars.alpha = barsAlpha;
+            }
+            else if (barsAlpha > 1f)
+            {
+                barsAlpha = 1f;
+                cutsceneBars.alpha = barsAlpha;
+            }
 
+            cutsceneTimer += Time.deltaTime;
+
+            if (cutsceneTimer >= 4f)
+            {
+                cutsceneTimer = 0f;
+                PlayerPrefs.SetString("Cutscene", "false");
+                PlayerPrefs.SetString("Paused", "false");
+            }
+            else if (cutsceneTimer >= 0f)
+            {
+                PlayerPrefs.SetString("Section Display", "true");
+                playerAnimations.SetBool("running", true);
+
+                newRotation = Quaternion.Euler(0f, 90f, 0f);
+                playerModel.transform.rotation = Quaternion.Euler(0f, 90f, 0f);
+                Vector3 newPosition = player.transform.position + (transform.right * .01f * 6.5f);
+                playerbody.MovePosition(newPosition);
+            }
+        }
+        else if (PlayerPrefs.GetString("Cutscene") == "true")
+        {
+            if (barsAlpha > 0f)
+            {
+                barsAlpha -= Time.deltaTime * 2f;
+                cutsceneBars.alpha = barsAlpha;
+            }
+            else if (barsAlpha < 0f)
+            {
+                barsAlpha = 0f;
+                cutsceneBars.alpha = barsAlpha;
+                PlayerPrefs.SetString("Section Display", "true");
+            }
+
+            cutsceneTimer += Time.deltaTime;
+
+            if (cutsceneTimer >= 1f)
+            {
+                cutsceneTimer = 0f;
+                PlayerPrefs.SetString("Cutscene", "false");
+                PlayerPrefs.SetString("Paused", "false");
+            }
         }
         else
         {
-
+            if (barsAlpha > 0f)
+            {
+                barsAlpha -= Time.deltaTime * 2f;
+                cutsceneBars.alpha = barsAlpha;
+            }
+            else if (barsAlpha < 0f)
+            {
+                barsAlpha = 0f;
+                cutsceneBars.alpha = barsAlpha;
+                PlayerPrefs.SetString("Section Display", "false");
+            }
         }
     }
 }

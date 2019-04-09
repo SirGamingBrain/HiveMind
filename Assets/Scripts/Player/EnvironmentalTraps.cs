@@ -16,6 +16,15 @@ public class EnvironmentalTraps : MonoBehaviour
 
     public Text text;
 
+    public void Start()
+    {
+        if (this.gameObject.name == "closing entrance")
+        {
+            door1.SetBool("Open", true);
+            door2.SetBool("Open", true);
+        }
+    }
+
     // Update is called once per frame
     void Update()
     {
@@ -56,14 +65,6 @@ public class EnvironmentalTraps : MonoBehaviour
             door1.SetBool("Open", true);
             door2.SetBool("Open", true);
         }
-        /*else if (this.gameObject.name == "pipeBurst")
-        {
-
-        }
-        else if (this.gameObject.name == "floorBreak")
-        {
-
-        }*/
     }
 
     public void OnTriggerEnter(Collider other)
@@ -74,6 +75,10 @@ public class EnvironmentalTraps : MonoBehaviour
             door2.SetBool("Open", false);
 
             interactable = true;
+        }
+        else if (this.tag == "entranceLock")
+        {
+            door1.SetBool("Open", false);
         }
     }
 }

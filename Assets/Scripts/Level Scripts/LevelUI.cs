@@ -205,7 +205,12 @@ public class LevelUI : MonoBehaviour
                 fadeAll = false;
                 audio.volume = masterLevel * 0f;
                 PlayerPrefs.Save();
-                if (scene.name == "NewTutorial" || backingOut == true)
+
+                if (backingOut == true)
+                {
+                    StartCoroutine(LoadScene("Main Menu"));
+                }
+                else if (scene.name == "NewTutorial")
                 {
                     StartCoroutine(LoadScene("1st Level"));
                 }
@@ -217,7 +222,7 @@ public class LevelUI : MonoBehaviour
                 {
                     StartCoroutine(LoadScene("3rd Level"));
                 }
-                else
+                else if (scene.name == "3rd Level")
                 {
                     StartCoroutine(LoadScene("Main Menu"));
                 }
@@ -357,10 +362,26 @@ public class LevelUI : MonoBehaviour
                 {
                     sectionName = "Medical Ward";
                 }
+                else if (PlayerPrefs.GetString("Last Section") == "1st Level")
+                {
+                    sectionName = "Feeding Grounds";
+                }
+                else if (PlayerPrefs.GetString("Last Section") == "2nd Level")
+                {
+                    sectionName = "Heart of the Hive";
+                }
+                else if (PlayerPrefs.GetString("Last Section") == "3rd Level")
+                {
+                    sectionName = "Breeding Grounds";
+                }
 
-                if (PlayerPrefs.GetString("Last Checkpoint") == "new")
+                if (PlayerPrefs.GetString("Last Checkpoint") == "new" && PlayerPrefs.GetString("Last Section") == "NewTutorial")
                 {
                     checkpointName = "Cryo Pod";
+                }
+                else if (PlayerPrefs.GetString("Last Checkpoint") == "new")
+                {
+                    checkpointName = "Entrance";
                 }
                 else
                 {

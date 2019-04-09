@@ -30,6 +30,7 @@ public class CameraFollow : MonoBehaviour
         //If the intro cutscene shouldn't play, then the camera is set to follow the players commands.
         //Or you haven't paused the game, don't worry about the code atm.
         if (PlayerPrefs.GetString("Cutscene") == "false" && PlayerPrefs.GetString("Paused") == "false") {
+
             oldPlace = this.transform.position;
 
             if (Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.D))
@@ -154,6 +155,23 @@ public class CameraFollow : MonoBehaviour
             this.transform.position = Vector3.Lerp(oldPlace, newPlace, perc);
         }
         else if (PlayerPrefs.GetString("Cutscene") == "false" && PlayerPrefs.GetString("Paused") == "true")
+        {
+            oldPlace = this.transform.position;
+
+            newPlace = new Vector3(player.transform.position.x, cameraHeight, player.transform.position.z - 6.5f);
+
+            moveTime += Time.deltaTime;
+
+            if (moveTime > 3f)
+            {
+                moveTime = 3f;
+            }
+
+            float perc = moveTime / 3f;
+
+            this.transform.position = Vector3.Lerp(oldPlace, newPlace, perc);
+        }
+        else if (PlayerPrefs.GetString("Cutscene") == "true")
         {
             oldPlace = this.transform.position;
 

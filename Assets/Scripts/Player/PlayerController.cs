@@ -52,7 +52,7 @@ public class PlayerController : MonoBehaviour
 
     private Rigidbody rb;
 
-    GameObject spawnPoint;
+    public GameObject spawnPoint;
 
     // Start is called before the first frame update
     void Start()
@@ -69,8 +69,6 @@ public class PlayerController : MonoBehaviour
         
         checkpointName = PlayerPrefs.GetString("Last Checkpoint");
 
-        spawnPoint = GameObject.Find(checkpointName);
-
         if (checkpointName == "new")
         {
             spawnPoint = GameObject.Find("new");
@@ -78,6 +76,10 @@ public class PlayerController : MonoBehaviour
         else if (checkpointName == "End")
         {
             spawnPoint = GameObject.Find("new");
+        }
+        else
+        {
+            spawnPoint = GameObject.Find(checkpointName);
         }
 
         this.transform.position = spawnPoint.transform.position;
@@ -341,6 +343,7 @@ public class PlayerController : MonoBehaviour
             }
 
             PlayerPrefs.SetString("Last Checkpoint", other.gameObject.name);
+            PlayerPrefs.SetString("Last Section", scene.name);
             PlayerPrefs.SetString("Section Display", "true");
             PlayerPrefs.Save();
         }
@@ -351,7 +354,22 @@ public class PlayerController : MonoBehaviour
         }
         else if (other.gameObject.tag == "newFloor")
         {
-            PlayerPrefs.SetString("Last Section", other.gameObject.name);
+            if (scene.name == "NewTutorial")
+            {
+                PlayerPrefs.SetString("Last Section", "NewTutorial");
+            }
+            else if (scene.name == "1st Level")
+            {
+                PlayerPrefs.SetString("Last Section", "1st Level");
+            }
+            else if (scene.name == "2nd Level")
+            {
+                PlayerPrefs.SetString("Last Section", "2nd Level");
+            }
+            else if (scene.name == "3rd Level")
+            {
+                PlayerPrefs.SetString("Last Section", "3rd Level");
+            }
             PlayerPrefs.Save();
         }
         else if (other.gameObject.tag == "lock")

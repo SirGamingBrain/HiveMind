@@ -52,18 +52,14 @@ public class TutorialScripts : MonoBehaviour
     {
         scene = SceneManager.GetActiveScene();
 
-        if (PlayerPrefs.GetString("Last Checkpoint") == "new" && (scene.name == "1st Level" || scene.name == "2nd Level" || scene.name == "3rd Level")) {
+        if (PlayerPrefs.GetString("Last Checkpoint") == "new" && (scene.name == "NewTutorial")) {
             PlayerPrefs.SetString("Cutscene", "true");
             cutsceneBars.alpha = 1f;
         }
         else
         {
+            PlayerPrefs.SetString("Cutscene", "false");
             cutsceneBars.alpha = 0f;
-        }
-
-        if (PlayerPrefs.GetString("Last Checkpoint") == "End")
-        {
-            PlayerPrefs.SetString("Last Checkpoint", "new");
         }
     }
 
@@ -310,7 +306,7 @@ public class TutorialScripts : MonoBehaviour
 
             cutsceneTimer += Time.deltaTime;
 
-            if (PlayerPrefs.GetString("Last Checkpoint") == "new")
+            if (PlayerPrefs.GetString("Last Checkpoint") == "End")
             {
                 if (cutsceneTimer >= 3f)
                 {
