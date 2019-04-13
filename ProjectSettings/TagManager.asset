@@ -12,6 +12,7 @@ TagManager:
   - door access
   - newFloor
   - lock
+  - entranceLock
   layers:
   - Default
   - TransparentFX
